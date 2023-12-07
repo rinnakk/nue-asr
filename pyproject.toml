@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project]
+name = "rinnakk-nue-asr"
+description = "An Integration of Pre-Trained Speech and Language Models for End-to-End Speech Recognition"
+version = "0.1.0"
+authors = [{ name = "rinna Co., Ltd." }]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+  "torch",
+  "transformers>4.33.0",
+  "sentence-transformers",
+  "librosa",
+  "numpy",
+]
+
+[project.scripts]
+nue-asr = "nue_asr.cli:cli_main"
+
+[project.optional-dependencies]
+dev = ["black", "isort"]
+deepspeed = ["deepspeed"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
