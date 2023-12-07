@@ -23,6 +23,9 @@ nue-asr = "nue_asr.cli:cli_main"
 dev = ["black", "isort"]
 deepspeed = ["deepspeed"]
 
+[tool.setuptools]
+packages = ["nue_asr"]
+
 [tool.isort]
 profile = "black"
 line_length = 88
