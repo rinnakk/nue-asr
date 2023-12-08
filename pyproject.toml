@@ -2,7 +2,7 @@
 requires = ["setuptools", "wheel"]
 
 [project]
-name = "rinnakk-nue-asr"
+name = "nue-asr"
 description = "An Integration of Pre-Trained Speech and Language Models for End-to-End Speech Recognition"
 version = "0.1.0"
 authors = [{ name = "rinna Co., Ltd." }]
