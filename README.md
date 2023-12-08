@@ -8,14 +8,18 @@ This repository includes codes for an end-to-end speech recognition model, `Nue 
 
 The name `Nue` comes from the Japanese word ([`鵺/ぬえ/Nue`](https://en.wikipedia.org/wiki/Nue)), one of the Japanese legendary creatures ([`妖怪/ようかい/Yōkai`](https://en.wikipedia.org/wiki/Y%C5%8Dkai)).
 
-This model is capable of performing highly accurate Japanese speech recognition.
-By utilizing a GPU, it can recognize speech at speeds exceeding real-time.
+This model provides end-to-end Japanese speech recognition with recognition accuracy comparable to the recent ASR models.
+You can recognize speech faster than real time by using a GPU.
 
-Benchmark score including our models can be seen at https://rinnakk.github.io/research/benchmarks/asr/
+Benchmark scores, including our models, can be found at https://rinnakk.github.io/research/benchmarks/asr/
 
-## Usage
+## Setup
 
-First, install the code for inference this model.
+We tested our code using Python 3.8.10 and 3.10.12 with [PyTorch](https://pytorch.org/) 2.1.1 and [Transformers](https://huggingface.co/docs/transformers) 4.35.2. 
+This codebase is expected to be compatible with Python 3.8 or later and recent PyTorch versions. 
+The version of Transformers should be 4.33.0 or higher.
+
+First, install the code for inference of this model.
 
 ```bash
 pip install git+https://github.com/rinnakk/nue-asr.git
@@ -24,7 +28,7 @@ pip install git+https://github.com/rinnakk/nue-asr.git
 Command-line interface and python interface are available.
 
 ## Command-line usage
-The following command will transcribe the audio file via the command line interface.
+The following command transcribes the audio file using the command line interface.
 Audio files will be automatically downsampled to 16kHz.
 ```bash
 nue-asr audio1.wav
@@ -34,7 +38,7 @@ You can specify multiple audio files.
 nue-asr audio1.wav audio2.flac audio3.mp3
 ```
 
-We can use DeepSpeed-Inference to accelerate the inference speed of GPT-NeoX module.
+We can use [DeepSpeed-Inference](https://www.deepspeed.ai/inference/) to accelerate the inference speed of GPT-NeoX module.
 If you use DeepSpeed-Inference, you need to install DeepSpeed.
 ```bash
 pip install deepspeed
@@ -48,7 +52,7 @@ nue-asr --use-deepspeed audio1.wav
 Run `nue-asr --help` for more information.
 
 ## Python usage
-The example of python interface is as follows:
+The example of Python interface is as follows:
 ```python
 import nue_asr
 
@@ -58,9 +62,9 @@ tokenizer = nue_asr.load_tokenizer("rinna/nue-asr")
 result = nue_asr.transcribe(model, tokenizer, "path_to_audio.wav")
 print(result.text)
 ```
-`nue_asr.transcribe` function can accept audio data as either a `numpy.array` or a `torch.Tensor`, in addition to traditional audio waveform file paths.
+`nue_asr.transcribe` function can accept audio data as either a `numpy.array` or a `torch.Tensor`, in addition to audio file paths.
 
-Accelerating the inference speed of models using DeepSpeed-Inference is also available through the python interface.
+Acceleration of inference speed using DeepSpeed-Inference is also available within the Python interface.
 ```python
 import nue_asr
 
