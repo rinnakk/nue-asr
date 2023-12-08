@@ -69,7 +69,7 @@ def transcribe(
         logger.warning(
             f"The input audio is {audio_len_sec:.1f} sec, "
             "but such long audio inputs may degrade recognition accuracy. "
-            "It is recommended to divide the audio into shorter segments."
+            "It is recommended to split the audio into shorter segments."
         )
 
     prefix_token = tokenizer.encode(
