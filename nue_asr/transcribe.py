@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 from dataclasses import dataclass
 from typing import Union
 
@@ -20,6 +21,10 @@ import torch
 from transformers import PreTrainedTokenizer
 
 from .model import NueASRModel
+
+WARN_TOO_LONG_THRESHOLD = 16.0
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -59,6 +64,13 @@ def transcribe(
     audio_len_sec = audio.shape[-1] / sr
     if decode_options["max_new_tokens"] is None:
         decode_options["max_new_tokens"] = int(4 * audio_len_sec + 20 + 0.5)
+
+    if audio_len_sec > WARN_TOO_LONG_THRESHOLD:
+        logger.warning(
+            f"The input audio is {audio_len_sec:.1f} sec, "
+            "but such long audio inputs may degrade recognition accuracy. "
+            "It is recommended to divide the audio into shorter segments."
+        )
 
     prefix_token = tokenizer.encode(
         "<s>",
