@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 import random
-import warnings
 from typing import Optional, Union
 
 import numpy as np
@@ -23,6 +23,8 @@ from transformers import AutoTokenizer
 from .model import NueASRModel
 
 DEFAULT_MODEL_NAME = "rinna/nue-asr"
+
+logger = logging.getLogger(__name__)
 
 
 def str2bool(v: str):
@@ -62,15 +64,15 @@ def load_model(
     device = torch.device(device)
     if device.type == "cpu":
         if torch.cuda.is_available():
-            warnings.warn(
-                "CUDA is available but using CPU."
+            logging.warning(
+                "CUDA is available but using CPU. "
                 "If you want to use CUDA, set `device` to `cuda`."
             )
         if fp16:
-            warnings.warn("FP16 is not supported on CPU. Using FP32 instead.")
+            logging.warning("FP16 is not supported on CPU. Using FP32 instead.")
             fp16 = False
         if use_deepspeed:
-            warnings.warn("DeepSpeed is not supported on CPU. Disabling it.")
+            logging.warning("DeepSpeed is not supported on CPU. Disabling it.")
             use_deepspeed = False
 
     dtype = torch.float16 if fp16 else torch.float32
@@ -101,5 +103,7 @@ def load_model(
 
     if device is not None:
         model.to(device)
+
+    logger.info(f"Finished loading model from {model_name_or_path}")
 
     return model
